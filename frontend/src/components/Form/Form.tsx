@@ -1,15 +1,23 @@
 import { Button, Paper, TextField, Typography } from "@mui/material";
 
-import { MuiForm } from "../custom";
+import { MuiForm } from "../custom/Styled";
 import { Post } from "../../api";
-import React from "react";
-import ReactImg64 from "../ReactImg64";
-import { createPost } from "../../features/posts/postsSlice";
-import { useAppDispatch } from "../../app/hooks";
+import React, { useEffect } from "react";
+import ReactImg64 from "../ReactImg64/ReactImg64";
+import { createPost, updatePost } from "../../features/posts/postsSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useState } from "react";
 
-const Form = () => {
+interface Props {
+  currentId: string;
+  setCurrentId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Form = ({ currentId, setCurrentId }: Props) => {
   const dispatch = useAppDispatch();
+  const post = useAppSelector((state) =>
+    currentId !== "0" ? state.posts.find((e) => e._id === currentId) : null
+  );
 
   const initialState: Post = {
     creator: "",
@@ -17,11 +25,33 @@ const Form = () => {
     message: "",
     tags: [],
     selectedFile: "",
+    likeCount: 0,
   };
 
-  const clear = () => setPostData(initialState);
-
   const [postData, setPostData] = useState(initialState);
+
+  const fileLabelInitialState = "Upload from storage.";
+  const [fileLabel, setFileLabel] = useState(fileLabelInitialState);
+
+  useEffect(() => {
+    if (post) {
+      const { creator, title, message, tags, selectedFile, likeCount } = post;
+      setPostData({
+        creator,
+        title,
+        message,
+        tags,
+        selectedFile,
+        likeCount,
+      });
+    }
+  }, [post]);
+
+  const clear = () => {
+    setPostData(initialState);
+    setFileLabel(fileLabelInitialState);
+    setCurrentId("0");
+  };
 
   const handleSumbit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,30 +61,39 @@ const Form = () => {
       return;
     }
 
-    dispatch(createPost(postData));
+    currentId === "0"
+      ? dispatch(createPost(postData))
+      : dispatch(updatePost({ _id: currentId, post: postData }));
+
     clear();
   };
 
   return (
     <Paper
-      sx={{ padding: (theme) => theme.spacing(2), margin: (theme) => theme.spacing(1) }}
+      sx={{
+        padding: 1,
+        mb: 4,
+        maxWidth: "400px",
+      }}
     >
       <MuiForm
         autoComplete="off"
         noValidate
         sx={{
-          margin: (theme) => theme.spacing(1),
+          margin: 2,
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
         }}
         onSubmit={handleSumbit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6">
+          {currentId === "0" ? "Creating a Memory" : `Editing '${post.title}'`}
+        </Typography>
         <TextField
           sx={{
-            marginTop: (theme) => theme.spacing(1),
-            marginBottom: (theme) => theme.spacing(1),
+            mt: 1,
+            mb: 1,
           }}
           name="creator"
           variant="outlined"
@@ -64,7 +103,7 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, creator: e.target.value })}
         />
         <TextField
-          sx={{ marginBottom: (theme) => theme.spacing(1) }}
+          sx={{ mb: 1 }}
           name="title"
           variant="outlined"
           label="Title"
@@ -73,7 +112,7 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, title: e.target.value })}
         />
         <TextField
-          sx={{ marginBottom: (theme) => theme.spacing(1) }}
+          sx={{ mb: 1 }}
           name="message"
           variant="outlined"
           label="Message"
@@ -84,6 +123,7 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, message: e.target.value })}
         />
         <TextField
+          sx={{ mb: 1 }}
           name="tags"
           variant="outlined"
           label="Tags (coma separated)"
@@ -102,13 +142,15 @@ const Form = () => {
               });
             }
           }}
+          fileLabel={fileLabel}
+          setFileLabel={setFileLabel}
         />
         <Button
           variant="contained"
           color="primary"
           size="large"
           type="submit"
-          sx={{ marginBottom: 1 }}
+          sx={{ my: 1, borderRadius: 5, py: 1 }}
           fullWidth
         >
           Submit
@@ -119,6 +161,7 @@ const Form = () => {
           size="small"
           onClick={clear}
           fullWidth
+          sx={{ borderRadius: 5, py: 1 }}
         >
           Clear
         </Button>

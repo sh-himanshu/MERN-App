@@ -1,6 +1,6 @@
 import { Fab, Typography } from "@mui/material";
-import { MuiInput, MuiLabel } from "../custom/index";
-import React, { useState } from "react";
+import { MuiInput, MuiLabel } from "../custom/Styled";
+import React from "react";
 
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 
@@ -14,9 +14,11 @@ interface ImgFile {
 
 interface Props {
   onDone: (image: ImgFile) => void;
+  fileLabel: string;
+  setFileLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ReactImg64 = ({ onDone }: Props) => {
+const ReactImg64 = ({ onDone, fileLabel, setFileLabel }: Props) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) return;
 
@@ -50,8 +52,6 @@ const ReactImg64 = ({ onDone }: Props) => {
     // };
   };
 
-  const [fileLabel, setFileLabel] = useState("");
-
   return (
     <MuiLabel
       htmlFor="icon-button-file"
@@ -59,7 +59,7 @@ const ReactImg64 = ({ onDone }: Props) => {
         display: "flex",
         width: "100%",
         alignItems: "center",
-        margin: (theme) => `${theme.spacing(2)} 0`,
+        my: 1,
       }}
     >
       <MuiInput
@@ -75,14 +75,16 @@ const ReactImg64 = ({ onDone }: Props) => {
         variant="extended"
         size="medium"
         sx={{
-          margin: (theme) => theme.spacing(1),
-          backgroundColor: "#290b78",
+          mr: 1.2,
+          bgcolor: "#BCCC9A",
+          color: "#161616",
+          border: "1px solid black",
         }}
       >
-        <AddPhotoAlternateOutlinedIcon sx={{ mr: 1 }} /> Image
+        <AddPhotoAlternateOutlinedIcon sx={{ mr: 0.7 }} /> Image
       </Fab>
       <Typography variant="body2" sx={{ maxWidth: "150px" }} noWrap={true}>
-        {fileLabel || "Upload from storage."}
+        {fileLabel}
       </Typography>
     </MuiLabel>
   );

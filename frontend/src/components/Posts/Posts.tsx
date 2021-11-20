@@ -2,10 +2,15 @@ import { Box, CircularProgress, Grid } from "@mui/material";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
-import Post from "./Post";
+import Post from "./Post/Post";
 import { fetchPosts } from "../../features/posts/postsSlice";
 
-export default function Posts() {
+interface Props {
+  currentId: string;
+  setCurrentId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function Posts({ currentId, setCurrentId }: Props) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -18,7 +23,7 @@ export default function Posts() {
     <Box
       sx={{
         display: "flex",
-        marginTop: (theme) => theme.spacing(5),
+        mt: 5,
         justifyContent: "center",
       }}
     >
@@ -27,15 +32,29 @@ export default function Posts() {
   ) : (
     <Grid
       container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="stretch"
-      rowSpacing={2}
-      columnSpacing={2}
+      flexDirection={{
+        xs: "column",
+        sm: "row",
+      }}
+      rowSpacing={{
+        xs: 3,
+        sm: 3,
+        md: 2,
+      }}
+      columnSpacing={{
+        xs: 0,
+        sm: 3,
+        md: 2,
+        lg: 4,
+      }}
+      alignItems={{
+        xs: "center",
+        sm: "stretch",
+      }}
     >
       {posts.map((post) => (
         <Grid item xs={12} sm={6} key={post._id}>
-          <Post post={post} />
+          <Post post={post} setCurrentId={setCurrentId} />
         </Grid>
       ))}
     </Grid>
