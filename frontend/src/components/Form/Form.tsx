@@ -88,7 +88,7 @@ const Form = ({ currentId, setCurrentId }: Props) => {
         onSubmit={handleSumbit}
       >
         <Typography variant="h6">
-          {currentId === "0" ? "Creating a Memory" : `Editing '${post.title}'`}
+          {post ? `Editing "${post.title}"` : "Creating a Memory"}
         </Typography>
         <TextField
           sx={{

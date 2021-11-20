@@ -63,15 +63,17 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (_, action) => action.payload)
-      .addCase(createPost.fulfilled, (state, action) => [...state, action.payload])
+      .addCase(createPost.fulfilled, (state, action) =>
+        action.payload ? [...state, action.payload] : state
+      )
       .addCase(updatePost.fulfilled, (state, action) =>
-        state.map((post) => (post._id === action.payload._id ? action.payload : post))
+        state.map((post) => (post._id === action.payload!._id ? action.payload! : post))
       )
       .addCase(likePost.fulfilled, (state, action) =>
-        state.map((post) => (post._id === action.payload._id ? action.payload : post))
+        state.map((post) => (post._id === action.payload!._id ? action.payload! : post))
       )
       .addCase(deletePost.fulfilled, (state, action) =>
-        state.filter((post) => post._id !== action.payload._id)
+        state.filter((post) => post._id !== action.payload!._id)
       );
   },
 });
