@@ -1,0 +1,13 @@
+yarn.lock
+node_modules
+.env
+build
+desktop.ini
+yarn-debug.log*
+yarn-error.log*
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

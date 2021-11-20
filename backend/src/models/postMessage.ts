@@ -6,7 +6,7 @@ interface Post {
   message: string;
   tags: string[];
   selectedFile: string;
-  linkCount: {
+  likeCount: {
     type: number;
     default?: number;
   };
@@ -22,7 +22,7 @@ const postSchema = new Schema<Post>({
   message: String,
   tags: [String],
   selectedFile: String,
-  linkCount: {
+  likeCount: {
     type: Number,
     default: 0,
   },
