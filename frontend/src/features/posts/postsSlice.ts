@@ -1,6 +1,6 @@
 import * as api from "../../api";
 
-import { CREATE, DELETE, FETCH_ALL, UPDATE, LIKE } from "./constants/actionTypes";
+import { CREATE, DELETE, FETCH_ALL, UPDATE, LIKE } from "../../constants/actionTypes";
 import { Post, PostRespose } from "../../api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 

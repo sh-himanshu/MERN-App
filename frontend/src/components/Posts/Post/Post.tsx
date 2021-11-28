@@ -19,12 +19,12 @@ import moment from "moment";
 import { useAppDispatch } from "../../../app/hooks";
 import { deletePost, likePost } from "../../../features/posts/postsSlice";
 
-interface Props {
+interface PostProps {
   post: PostRespose;
   setCurrentId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Post({ post, setCurrentId }: Props) {
+const Post = ({ post, setCurrentId }: PostProps) => {
   const {
     creator,
     title,
@@ -64,7 +64,9 @@ export default function Post({ post, setCurrentId }: Props) {
         }
         title={<Typography variant="subtitle1">{creator}</Typography>}
         subheader={
-          <Typography variant="caption">{moment(createdAt).fromNow()}</Typography>
+          <Typography variant="caption">
+            {moment(createdAt).fromNow()}
+          </Typography>
         }
         sx={{
           position: "absolute",
@@ -109,7 +111,10 @@ export default function Post({ post, setCurrentId }: Props) {
           p: 2,
         }}
       >
-        <LikeButton likeCount={likeCount} onClick={() => dispatch(likePost(post))} />
+        <LikeButton
+          likeCount={likeCount}
+          onClick={() => dispatch(likePost(post))}
+        />
         <Fab
           size="medium"
           sx={{ "&:hover": { backgroundColor: "#df1919" } }}
@@ -121,4 +126,6 @@ export default function Post({ post, setCurrentId }: Props) {
       </Stack>
     </Card>
   );
-}
+};
+
+export default Post;

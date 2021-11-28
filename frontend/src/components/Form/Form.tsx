@@ -1,6 +1,6 @@
 import { Button, Paper, TextField, Typography } from "@mui/material";
 
-import { MuiForm } from "../custom/Styled";
+import { MuiForm } from "../Custom/Styled";
 import { Post } from "../../api";
 import React, { useEffect } from "react";
 import ReactImg64 from "../ReactImg64/ReactImg64";
@@ -8,12 +8,12 @@ import { createPost, updatePost } from "../../features/posts/postsSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useState } from "react";
 
-interface Props {
+interface FormProps {
   currentId: string;
   setCurrentId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Form = ({ currentId, setCurrentId }: Props) => {
+const Form = ({ currentId, setCurrentId }: FormProps) => {
   const dispatch = useAppDispatch();
   const post = useAppSelector((state) =>
     currentId !== "0" ? state.posts.find((e) => e._id === currentId) : null
@@ -68,6 +68,16 @@ const Form = ({ currentId, setCurrentId }: Props) => {
     clear();
   };
 
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const inputName = event.target.name as "message" | "creator" | "title";
+    setPostData((data) => {
+      data[inputName] = event.target.value;
+      return data;
+    });
+  };
+
   return (
     <Paper
       sx={{
@@ -100,7 +110,7 @@ const Form = ({ currentId, setCurrentId }: Props) => {
           label="Creator"
           fullWidth
           value={postData.creator}
-          onChange={(e) => setPostData({ ...postData, creator: e.target.value })}
+          onChange={handleChange}
         />
         <TextField
           sx={{ mb: 1 }}
@@ -109,7 +119,7 @@ const Form = ({ currentId, setCurrentId }: Props) => {
           label="Title"
           fullWidth
           value={postData.title}
-          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
+          onChange={handleChange}
         />
         <TextField
           sx={{ mb: 1 }}
@@ -120,7 +130,7 @@ const Form = ({ currentId, setCurrentId }: Props) => {
           multiline
           rows={4}
           value={postData.message}
-          onChange={(e) => setPostData({ ...postData, message: e.target.value })}
+          onChange={handleChange}
         />
         <TextField
           sx={{ mb: 1 }}

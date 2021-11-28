@@ -1,5 +1,5 @@
 import { Fab, Typography } from "@mui/material";
-import { MuiInput, MuiLabel } from "../custom/Styled";
+import { MuiInput, MuiLabel } from "../Custom/Styled";
 import React from "react";
 
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
@@ -12,13 +12,13 @@ interface ImgFile {
   file: File;
 }
 
-interface Props {
+interface ReactImg64Props {
   onDone: (image: ImgFile) => void;
   fileLabel: string;
   setFileLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ReactImg64 = ({ onDone, fileLabel, setFileLabel }: Props) => {
+const ReactImg64 = ({ onDone, fileLabel, setFileLabel }: ReactImg64Props) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) return;
 

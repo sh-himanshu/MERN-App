@@ -1,14 +1,14 @@
 import { Fab } from "@mui/material";
 import { useState } from "react";
-import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import React from "react";
 
-interface Props {
+interface LikeButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   likeCount: number;
 }
 
-const LikeButton = ({ onClick, likeCount }: Props) => {
+const LikeButton = ({ onClick, likeCount }: LikeButtonProps) => {
   const likeBtnDefault = {
     bg: "grey",
     svg: "black",
@@ -49,7 +49,7 @@ const LikeButton = ({ onClick, likeCount }: Props) => {
         if (typeof onClick == "function") onClick(event);
       }}
     >
-      <FavoriteRoundedIcon sx={{ mr: 1 }} />
+      <ThumbUpRoundedIcon sx={{ mr: 1 }} />
       {likeCount}
     </Fab>
   );

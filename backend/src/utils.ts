@@ -11,4 +11,4 @@ export const normalizePort = (val: any) => {
 };
 
 export const parseError = (error: unknown) =>
-  error instanceof Error ? error.message : "Unknown Error";
+  error instanceof Error ? `Error: ${error.message}` : "Unknown Error";

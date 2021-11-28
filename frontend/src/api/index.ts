@@ -27,7 +27,6 @@ const toPost = (data: PostRespose | Post): Post => {
     const { _id, __v, createdAt, ...post } = data;
     return post;
   }
-
   return data;
 };
 

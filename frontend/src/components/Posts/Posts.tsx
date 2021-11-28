@@ -1,22 +1,15 @@
 import { Box, CircularProgress, Grid } from "@mui/material";
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import React from "react";
+import { useAppSelector } from "../../app/hooks";
 
 import Post from "./Post/Post";
-import { fetchPosts } from "../../features/posts/postsSlice";
 
-interface Props {
+interface PostsProps {
   currentId: string;
   setCurrentId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function Posts({ currentId, setCurrentId }: Props) {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
-
+const Posts = ({ setCurrentId }: PostsProps) => {
   const posts = useAppSelector((state) => state.posts);
 
   return !posts.length ? (
@@ -59,4 +52,6 @@ export default function Posts({ currentId, setCurrentId }: Props) {
       ))}
     </Grid>
   );
-}
+};
+
+export default Posts;
